@@ -433,7 +433,7 @@ var app = (function () {
 
     const file$3 = "src\\components\\modalAdd.svelte";
 
-    function get_each_context$1(ctx, list, i) {
+    function get_each_context$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[11] = list[i];
     	return child_ctx;
@@ -481,7 +481,7 @@ var app = (function () {
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block$1(get_each_context$1(ctx, each_value, i));
+    		each_blocks[i] = create_each_block$2(get_each_context$2(ctx, each_value, i));
     	}
 
     	const block = {
@@ -667,12 +667,12 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context$1(ctx, each_value, i);
+    					const child_ctx = get_each_context$2(ctx, each_value, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks[i] = create_each_block$1(child_ctx);
+    						each_blocks[i] = create_each_block$2(child_ctx);
     						each_blocks[i].c();
     						each_blocks[i].m(select, null);
     					}
@@ -709,7 +709,7 @@ var app = (function () {
     }
 
     // (29:24) {#each listCategories as category}
-    function create_each_block$1(ctx) {
+    function create_each_block$2(ctx) {
     	let option;
     	let t0_value = /*category*/ ctx[11].title + "";
     	let t0;
@@ -745,7 +745,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_each_block$1.name,
+    		id: create_each_block$2.name,
     		type: "each",
     		source: "(29:24) {#each listCategories as category}",
     		ctx
@@ -964,6 +964,12 @@ var app = (function () {
 
     const file$2 = "src\\components\\modalEdit.svelte";
 
+    function get_each_context$1(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[9] = list[i];
+    	return child_ctx;
+    }
+
     // (5:0) {#if modalEdit}
     function create_if_block$2(ctx) {
     	let form;
@@ -978,7 +984,7 @@ var app = (function () {
     	let h30;
     	let t5;
     	let span0;
-    	let input0;
+    	let input;
     	let t6;
     	let h31;
     	let t8;
@@ -992,18 +998,22 @@ var app = (function () {
     	let t12;
     	let h33;
     	let t14;
-    	let span4;
-    	let label;
-    	let input1;
-    	let t15;
     	let span3;
-    	let t17;
+    	let select;
+    	let t15;
     	let div2;
     	let button0;
-    	let t19;
+    	let t17;
     	let button1;
     	let mounted;
     	let dispose;
+    	let each_value = listCategories;
+    	validate_each_argument(each_value);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value.length; i += 1) {
+    		each_blocks[i] = create_each_block$1(get_each_context$1(ctx, each_value, i));
+    	}
 
     	const block = {
     		c: function create() {
@@ -1021,7 +1031,7 @@ var app = (function () {
     			h30.textContent = "Le titre:";
     			t5 = space();
     			span0 = element("span");
-    			input0 = element("input");
+    			input = element("input");
     			t6 = space();
     			h31 = element("h3");
     			h31.textContent = "Le texte:";
@@ -1038,17 +1048,18 @@ var app = (function () {
     			h33 = element("h3");
     			h33.textContent = "Ajouter des catégories:";
     			t14 = space();
-    			span4 = element("span");
-    			label = element("label");
-    			input1 = element("input");
-    			t15 = space();
     			span3 = element("span");
-    			span3.textContent = "Catégorie 1";
-    			t17 = space();
+    			select = element("select");
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			t15 = space();
     			div2 = element("div");
     			button0 = element("button");
     			button0.textContent = "Annuler";
-    			t19 = space();
+    			t17 = space();
     			button1 = element("button");
     			button1.textContent = "Ajouter";
     			attr_dev(div0, "class", "modal-bg");
@@ -1059,9 +1070,9 @@ var app = (function () {
     			add_location(h2, file$2, 11, 12, 390);
     			attr_dev(h30, "class", "modal-h3");
     			add_location(h30, file$2, 12, 12, 447);
-    			attr_dev(input0, "type", "text");
-    			input0.required = true;
-    			add_location(input0, file$2, 14, 20, 541);
+    			attr_dev(input, "type", "text");
+    			input.required = true;
+    			add_location(input, file$2, 14, 20, 541);
     			attr_dev(span0, "class", "text");
     			add_location(span0, file$2, 13, 16, 500);
     			attr_dev(h31, "class", "modal-h3");
@@ -1081,21 +1092,17 @@ var app = (function () {
     			add_location(span2, file$2, 21, 12, 943);
     			attr_dev(h33, "class", "modal-h3");
     			add_location(h33, file$2, 24, 12, 1161);
-    			attr_dev(input1, "type", "checkbox");
-    			attr_dev(input1, "name", "category");
-    			input1.value = "categorie-1";
-    			add_location(input1, file$2, 27, 20, 1296);
-    			add_location(span3, file$2, 28, 20, 1377);
-    			add_location(label, file$2, 26, 16, 1267);
-    			attr_dev(span4, "class", "categories");
-    			add_location(span4, file$2, 25, 12, 1224);
+    			if (/*updatedArticle*/ ctx[1].category === void 0) add_render_callback(() => /*select_change_handler*/ ctx[7].call(select));
+    			add_location(select, file$2, 26, 16, 1267);
+    			attr_dev(span3, "class", "categories");
+    			add_location(span3, file$2, 25, 12, 1224);
     			attr_dev(button0, "class", "button button-large");
-    			add_location(button0, file$2, 32, 16, 1504);
+    			add_location(button0, file$2, 35, 16, 1633);
     			attr_dev(button1, "type", "submit");
     			attr_dev(button1, "class", "button button-large");
-    			add_location(button1, file$2, 33, 16, 1612);
+    			add_location(button1, file$2, 36, 16, 1741);
     			attr_dev(div2, "class", "modal-foot");
-    			add_location(div2, file$2, 31, 12, 1462);
+    			add_location(div2, file$2, 34, 12, 1591);
     			attr_dev(div3, "class", "modal-wrap");
     			add_location(div3, file$2, 9, 7, 270);
     			attr_dev(div4, "class", "modal-inner");
@@ -1116,8 +1123,8 @@ var app = (function () {
     			append_dev(div3, h30);
     			append_dev(div3, t5);
     			append_dev(div3, span0);
-    			append_dev(span0, input0);
-    			set_input_value(input0, /*updatedArticle*/ ctx[1].title);
+    			append_dev(span0, input);
+    			set_input_value(input, /*updatedArticle*/ ctx[1].title);
     			append_dev(div3, t6);
     			append_dev(div3, h31);
     			append_dev(div3, t8);
@@ -1133,25 +1140,29 @@ var app = (function () {
     			append_dev(div3, t12);
     			append_dev(div3, h33);
     			append_dev(div3, t14);
-    			append_dev(div3, span4);
-    			append_dev(span4, label);
-    			append_dev(label, input1);
-    			append_dev(label, t15);
-    			append_dev(label, span3);
-    			append_dev(div3, t17);
+    			append_dev(div3, span3);
+    			append_dev(span3, select);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(select, null);
+    			}
+
+    			select_option(select, /*updatedArticle*/ ctx[1].category);
+    			append_dev(div3, t15);
     			append_dev(div3, div2);
     			append_dev(div2, button0);
-    			append_dev(div2, t19);
+    			append_dev(div2, t17);
     			append_dev(div2, button1);
 
     			if (!mounted) {
     				dispose = [
     					listen_dev(div0, "click", /*click_handler*/ ctx[2], false, false, false),
     					listen_dev(div1, "click", /*click_handler_1*/ ctx[3], false, false, false),
-    					listen_dev(input0, "input", /*input0_input_handler*/ ctx[4]),
+    					listen_dev(input, "input", /*input_input_handler*/ ctx[4]),
     					listen_dev(textarea0, "input", /*textarea0_input_handler*/ ctx[5]),
     					listen_dev(textarea1, "input", /*textarea1_input_handler*/ ctx[6]),
-    					listen_dev(button0, "click", /*click_handler_2*/ ctx[7], false, false, false),
+    					listen_dev(select, "change", /*select_change_handler*/ ctx[7]),
+    					listen_dev(button0, "click", /*click_handler_2*/ ctx[8], false, false, false),
     					listen_dev(form, "submit", prevent_default(updateArticle), false, true, false)
     				];
 
@@ -1159,20 +1170,49 @@ var app = (function () {
     			}
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*updatedArticle*/ 2 && input0.value !== /*updatedArticle*/ ctx[1].title) {
-    				set_input_value(input0, /*updatedArticle*/ ctx[1].title);
+    			if (dirty & /*updatedArticle, listCategories*/ 2 && input.value !== /*updatedArticle*/ ctx[1].title) {
+    				set_input_value(input, /*updatedArticle*/ ctx[1].title);
     			}
 
-    			if (dirty & /*updatedArticle*/ 2) {
+    			if (dirty & /*updatedArticle, listCategories*/ 2) {
     				set_input_value(textarea0, /*updatedArticle*/ ctx[1].description);
     			}
 
-    			if (dirty & /*updatedArticle*/ 2) {
+    			if (dirty & /*updatedArticle, listCategories*/ 2) {
     				set_input_value(textarea1, /*updatedArticle*/ ctx[1].keywords);
+    			}
+
+    			if (dirty & /*listCategories*/ 0) {
+    				each_value = listCategories;
+    				validate_each_argument(each_value);
+    				let i;
+
+    				for (i = 0; i < each_value.length; i += 1) {
+    					const child_ctx = get_each_context$1(ctx, each_value, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block$1(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(select, null);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value.length;
+    			}
+
+    			if (dirty & /*updatedArticle, listCategories*/ 2) {
+    				select_option(select, /*updatedArticle*/ ctx[1].category);
     			}
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(form);
+    			destroy_each(each_blocks, detaching);
     			mounted = false;
     			run_all(dispose);
     		}
@@ -1183,6 +1223,44 @@ var app = (function () {
     		id: create_if_block$2.name,
     		type: "if",
     		source: "(5:0) {#if modalEdit}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (28:20) {#each listCategories as category}
+    function create_each_block$1(ctx) {
+    	let option;
+    	let t0_value = /*category*/ ctx[9].title + "";
+    	let t0;
+    	let t1;
+
+    	const block = {
+    		c: function create() {
+    			option = element("option");
+    			t0 = text(t0_value);
+    			t1 = space();
+    			option.__value = /*category*/ ctx[9];
+    			option.value = option.__value;
+    			add_location(option, file$2, 28, 24, 1394);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			append_dev(option, t0);
+    			append_dev(option, t1);
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block$1.name,
+    		type: "each",
+    		source: "(28:20) {#each listCategories as category}",
     		ctx
     	});
 
@@ -1256,7 +1334,7 @@ var app = (function () {
     		$$invalidate(0, modalEdit = false);
     	};
 
-    	function input0_input_handler() {
+    	function input_input_handler() {
     		updatedArticle.title = this.value;
     		$$invalidate(1, updatedArticle);
     	}
@@ -1268,6 +1346,11 @@ var app = (function () {
 
     	function textarea1_input_handler() {
     		updatedArticle.keywords = this.value;
+    		$$invalidate(1, updatedArticle);
+    	}
+
+    	function select_change_handler() {
+    		updatedArticle.category = select_value(this);
     		$$invalidate(1, updatedArticle);
     	}
 
@@ -1296,9 +1379,10 @@ var app = (function () {
     		updatedArticle,
     		click_handler,
     		click_handler_1,
-    		input0_input_handler,
+    		input_input_handler,
     		textarea0_input_handler,
     		textarea1_input_handler,
+    		select_change_handler,
     		click_handler_2
     	];
     }
@@ -1637,7 +1721,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (185:16) {#if listCategories}
+    // (200:16) {#if listCategories}
     function create_if_block_6(ctx) {
     	let each_1_anchor;
     	let each_value_4 = /*listCategories*/ ctx[4];
@@ -1698,14 +1782,14 @@ var app = (function () {
     		block,
     		id: create_if_block_6.name,
     		type: "if",
-    		source: "(185:16) {#if listCategories}",
+    		source: "(200:16) {#if listCategories}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (187:20) {#each listCategories as category}
+    // (202:20) {#each listCategories as category}
     function create_each_block_4(ctx) {
     	let li;
     	let span;
@@ -1724,8 +1808,8 @@ var app = (function () {
     			span = element("span");
     			t = text(t_value);
     			attr_dev(span, "class", "text");
-    			add_location(span, file, 188, 28, 4837);
-    			add_location(li, file, 188, 24, 4833);
+    			add_location(span, file, 203, 28, 5606);
+    			add_location(li, file, 203, 24, 5602);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -1752,14 +1836,14 @@ var app = (function () {
     		block,
     		id: create_each_block_4.name,
     		type: "each",
-    		source: "(187:20) {#each listCategories as category}",
+    		source: "(202:20) {#each listCategories as category}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (204:16) {#if listKeywords}
+    // (219:16) {#if listKeywords}
     function create_if_block_5(ctx) {
     	let each_1_anchor;
     	let each_value_3 = /*listKeywords*/ ctx[5];
@@ -1820,14 +1904,14 @@ var app = (function () {
     		block,
     		id: create_if_block_5.name,
     		type: "if",
-    		source: "(204:16) {#if listKeywords}",
+    		source: "(219:16) {#if listKeywords}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (206:20) {#each listKeywords as keyword}
+    // (221:20) {#each listKeywords as keyword}
     function create_each_block_3(ctx) {
     	let li;
     	let t_value = /*keyword*/ ctx[48] + "";
@@ -1843,7 +1927,7 @@ var app = (function () {
     		c: function create() {
     			li = element("li");
     			t = text(t_value);
-    			add_location(li, file, 207, 24, 5492);
+    			add_location(li, file, 222, 24, 6261);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -1869,14 +1953,14 @@ var app = (function () {
     		block,
     		id: create_each_block_3.name,
     		type: "each",
-    		source: "(206:20) {#each listKeywords as keyword}",
+    		source: "(221:20) {#each listKeywords as keyword}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (230:0) {#if searchArticles }
+    // (245:0) {#if searchArticles }
     function create_if_block_3(ctx) {
     	let each_1_anchor;
     	let each_value_1 = /*searchArticles*/ ctx[10];
@@ -1937,14 +2021,14 @@ var app = (function () {
     		block,
     		id: create_if_block_3.name,
     		type: "if",
-    		source: "(230:0) {#if searchArticles }",
+    		source: "(245:0) {#if searchArticles }",
     		ctx
     	});
 
     	return block;
     }
 
-    // (239:12) {#if item.keywords}
+    // (254:12) {#if item.keywords}
     function create_if_block_4(ctx) {
     	let ul;
     	let each_value_2 = /*item*/ ctx[45].keywords;
@@ -1964,7 +2048,7 @@ var app = (function () {
     			}
 
     			attr_dev(ul, "class", "keywords");
-    			add_location(ul, file, 239, 16, 6387);
+    			add_location(ul, file, 254, 16, 7156);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, ul, anchor);
@@ -2008,14 +2092,14 @@ var app = (function () {
     		block,
     		id: create_if_block_4.name,
     		type: "if",
-    		source: "(239:12) {#if item.keywords}",
+    		source: "(254:12) {#if item.keywords}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (241:20) {#each item.keywords as keyword}
+    // (256:20) {#each item.keywords as keyword}
     function create_each_block_2(ctx) {
     	let li;
     	let t_value = /*keyword*/ ctx[48] + "";
@@ -2025,7 +2109,7 @@ var app = (function () {
     		c: function create() {
     			li = element("li");
     			t = text(t_value);
-    			add_location(li, file, 241, 24, 6488);
+    			add_location(li, file, 256, 24, 7257);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -2043,14 +2127,14 @@ var app = (function () {
     		block,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(241:20) {#each item.keywords as keyword}",
+    		source: "(256:20) {#each item.keywords as keyword}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (232:4) {#each searchArticles as item}
+    // (247:4) {#each searchArticles as item}
     function create_each_block_1(ctx) {
     	let li;
     	let h2;
@@ -2133,38 +2217,38 @@ var app = (function () {
     			path2 = svg_element("path");
     			t9 = space();
     			attr_dev(a, "href", a_href_value = `./article/${/*item*/ ctx[45].id}`);
-    			add_location(a, file, 234, 12, 6135);
-    			add_location(h2, file, 234, 8, 6131);
-    			add_location(p0, file, 235, 8, 6201);
-    			add_location(p1, file, 236, 8, 6254);
+    			add_location(a, file, 249, 12, 6904);
+    			add_location(h2, file, 249, 8, 6900);
+    			add_location(p0, file, 250, 8, 6970);
+    			add_location(p1, file, 251, 8, 7023);
     			attr_dev(path0, "d", "M 15 2 C 11.145666 2 8 5.1456661 8 9 L 8 11 L 6 11 C 4.895 11 4 11.895 4 13 L 4 25 C 4 26.105 4.895 27 6 27 L 24 27 C 25.105 27 26 26.105 26 25 L 26 13 C 26 11.895 25.105 11 24 11 L 22 11 L 22 9 C 22 5.2715823 19.036581 2.2685653 15.355469 2.0722656 A 1.0001 1.0001 0 0 0 15 2 z M 15 4 C 17.773666 4 20 6.2263339 20 9 L 20 11 L 10 11 L 10 9 C 10 6.2263339 12.226334 4 15 4 z");
-    			add_location(path0, file, 247, 82, 6818);
+    			add_location(path0, file, 262, 82, 7587);
     			attr_dev(svg0, "xmlns", "http://www.w3.org/2000/svg");
     			attr_dev(svg0, "viewBox", "0 0 30 30");
-    			add_location(svg0, file, 247, 20, 6756);
+    			add_location(svg0, file, 262, 20, 7525);
     			attr_dev(button0, "class", "button lock");
-    			add_location(button0, file, 246, 16, 6630);
+    			add_location(button0, file, 261, 16, 7399);
     			attr_dev(path1, "d", "M 18.414062 2 C 18.158188 2 17.902031 2.0974687 17.707031 2.2929688 L 16 4 L 20 8 L 21.707031 6.2929688 C 22.098031 5.9019687 22.098031 5.2689063 21.707031 4.8789062 L 19.121094 2.2929688 C 18.925594 2.0974687 18.669937 2 18.414062 2 z M 14.5 5.5 L 3 17 L 3 21 L 7 21 L 18.5 9.5 L 14.5 5.5 z");
-    			add_location(path1, file, 250, 82, 7452);
+    			add_location(path1, file, 265, 82, 8221);
     			attr_dev(svg1, "xmlns", "http://www.w3.org/2000/svg");
     			attr_dev(svg1, "viewBox", "0 0 24 24");
-    			add_location(svg1, file, 250, 20, 7390);
+    			add_location(svg1, file, 265, 20, 8159);
     			attr_dev(button1, "class", "button edit");
-    			add_location(button1, file, 249, 16, 7283);
+    			add_location(button1, file, 264, 16, 8052);
     			attr_dev(path2, "d", "M 10.806641 2 C 10.289641 2 9.7956875 2.2043125 9.4296875 2.5703125 L 9 3 L 4 3 A 1.0001 1.0001 0 1 0 4 5 L 20 5 A 1.0001 1.0001 0 1 0 20 3 L 15 3 L 14.570312 2.5703125 C 14.205312 2.2043125 13.710359 2 13.193359 2 L 10.806641 2 z M 4.3652344 7 L 5.8925781 20.263672 C 6.0245781 21.253672 6.877 22 7.875 22 L 16.123047 22 C 17.121047 22 17.974422 21.254859 18.107422 20.255859 L 19.634766 7 L 4.3652344 7 z");
-    			add_location(path2, file, 253, 80, 7977);
+    			add_location(path2, file, 268, 80, 8746);
     			attr_dev(svg2, "xmlns", "http://www.w3.org/2000/svg");
     			attr_dev(svg2, "viewBox", "0 0 24 24");
-    			add_location(svg2, file, 253, 20, 7917);
+    			add_location(svg2, file, 268, 20, 8686);
     			attr_dev(button2, "class", "button delete");
-    			add_location(button2, file, 252, 16, 7806);
+    			add_location(button2, file, 267, 16, 8575);
     			attr_dev(div0, "class", "buttons");
-    			add_location(div0, file, 245, 12, 6591);
+    			add_location(div0, file, 260, 12, 7360);
     			attr_dev(div1, "class", "note-foot");
-    			add_location(div1, file, 237, 8, 6313);
+    			add_location(div1, file, 252, 8, 7082);
     			attr_dev(li, "class", "note");
     			attr_dev(li, "id", li_id_value = /*item*/ ctx[45].id);
-    			add_location(li, file, 233, 4, 6088);
+    			add_location(li, file, 248, 4, 6857);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -2248,14 +2332,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(232:4) {#each searchArticles as item}",
+    		source: "(247:4) {#each searchArticles as item}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (267:0) {#if modalAdd }
+    // (282:0) {#if modalAdd }
     function create_if_block_2(ctx) {
     	let form;
     	let div0;
@@ -2348,51 +2432,51 @@ var app = (function () {
     			button1 = element("button");
     			button1.textContent = "Ajouter";
     			attr_dev(div0, "class", "modal-bg close-modal");
-    			add_location(div0, file, 269, 8, 8756);
+    			add_location(div0, file, 284, 8, 9525);
     			attr_dev(div1, "class", "icon-close close-modal");
-    			add_location(div1, file, 272, 16, 8924);
+    			add_location(div1, file, 287, 16, 9693);
     			attr_dev(h2, "class", "modal-h2");
-    			add_location(h2, file, 273, 16, 9021);
+    			add_location(h2, file, 288, 16, 9790);
     			attr_dev(h30, "class", "modal-h3");
-    			add_location(h30, file, 274, 16, 9081);
+    			add_location(h30, file, 289, 16, 9850);
     			attr_dev(input, "type", "text");
     			input.required = true;
-    			add_location(input, file, 276, 20, 9175);
+    			add_location(input, file, 291, 20, 9944);
     			attr_dev(span0, "class", "text");
-    			add_location(span0, file, 275, 16, 9134);
+    			add_location(span0, file, 290, 16, 9903);
     			attr_dev(h31, "class", "modal-h3");
-    			add_location(h31, file, 278, 16, 9273);
+    			add_location(h31, file, 293, 16, 10042);
     			attr_dev(textarea0, "name", "note");
     			textarea0.required = true;
-    			add_location(textarea0, file, 280, 20, 9367);
+    			add_location(textarea0, file, 295, 20, 10136);
     			attr_dev(span1, "class", "text");
-    			add_location(span1, file, 279, 16, 9326);
+    			add_location(span1, file, 294, 16, 10095);
     			attr_dev(h32, "class", "modal-h3");
-    			add_location(h32, file, 282, 16, 9485);
+    			add_location(h32, file, 297, 16, 10254);
     			attr_dev(textarea1, "name", "keywords");
     			attr_dev(textarea1, "placeholder", "Ecrire les mots clefs séparés par une vigurle");
-    			add_location(textarea1, file, 284, 20, 9604);
+    			add_location(textarea1, file, 299, 20, 10373);
     			attr_dev(span2, "class", "text text-small");
-    			add_location(span2, file, 283, 16, 9552);
+    			add_location(span2, file, 298, 16, 10321);
     			attr_dev(h33, "class", "modal-h3");
-    			add_location(h33, file, 286, 16, 9774);
+    			add_location(h33, file, 301, 16, 10543);
     			if (/*article*/ ctx[12].category === void 0) add_render_callback(() => /*select_change_handler*/ ctx[31].call(select));
-    			add_location(select, file, 288, 20, 9887);
+    			add_location(select, file, 303, 20, 10656);
     			attr_dev(span3, "class", "categories");
-    			add_location(span3, file, 287, 16, 9840);
+    			add_location(span3, file, 302, 16, 10609);
     			attr_dev(button0, "class", "button button-large");
-    			add_location(button0, file, 297, 20, 10282);
+    			add_location(button0, file, 312, 20, 11051);
     			attr_dev(button1, "type", "submit");
     			attr_dev(button1, "class", "button button-large");
-    			add_location(button1, file, 298, 20, 10393);
+    			add_location(button1, file, 313, 20, 11162);
     			attr_dev(div2, "class", "modal-foot");
-    			add_location(div2, file, 296, 16, 10236);
+    			add_location(div2, file, 311, 16, 11005);
     			attr_dev(div3, "class", "modal-wrap");
-    			add_location(div3, file, 271, 12, 8882);
+    			add_location(div3, file, 286, 12, 9651);
     			attr_dev(div4, "class", "modal-inner");
-    			add_location(div4, file, 270, 8, 8843);
+    			add_location(div4, file, 285, 8, 9612);
     			attr_dev(form, "class", "modal modal-add");
-    			add_location(form, file, 268, 4, 8674);
+    			add_location(form, file, 283, 4, 9443);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, form, anchor);
@@ -2506,14 +2590,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2.name,
     		type: "if",
-    		source: "(267:0) {#if modalAdd }",
+    		source: "(282:0) {#if modalAdd }",
     		ctx
     	});
 
     	return block;
     }
 
-    // (290:24) {#each listCategories as category}
+    // (305:24) {#each listCategories as category}
     function create_each_block(ctx) {
     	let option;
     	let t0_value = /*category*/ ctx[42].title + "";
@@ -2528,7 +2612,7 @@ var app = (function () {
     			t1 = space();
     			option.__value = option_value_value = /*category*/ ctx[42];
     			option.value = option.__value;
-    			add_location(option, file, 290, 28, 10015);
+    			add_location(option, file, 305, 28, 10784);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -2552,14 +2636,14 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(290:24) {#each listCategories as category}",
+    		source: "(305:24) {#each listCategories as category}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (307:0) {#if modalEdit}
+    // (322:0) {#if modalEdit}
     function create_if_block_1(ctx) {
     	let form;
     	let div0;
@@ -2647,56 +2731,56 @@ var app = (function () {
     			button1 = element("button");
     			button1.textContent = "Ajouter";
     			attr_dev(div0, "class", "modal-bg");
-    			add_location(div0, file, 309, 4, 10651);
+    			add_location(div0, file, 324, 4, 11420);
     			attr_dev(div1, "class", "icon-close");
-    			add_location(div1, file, 312, 12, 10795);
+    			add_location(div1, file, 327, 12, 11564);
     			attr_dev(h2, "class", "modal-h2");
-    			add_location(h2, file, 313, 12, 10877);
+    			add_location(h2, file, 328, 12, 11646);
     			attr_dev(h30, "class", "modal-h3");
-    			add_location(h30, file, 314, 12, 10934);
+    			add_location(h30, file, 329, 12, 11703);
     			attr_dev(input0, "type", "text");
     			input0.required = true;
-    			add_location(input0, file, 316, 20, 11028);
+    			add_location(input0, file, 331, 20, 11797);
     			attr_dev(span0, "class", "text");
-    			add_location(span0, file, 315, 16, 10987);
+    			add_location(span0, file, 330, 16, 11756);
     			attr_dev(h31, "class", "modal-h3");
-    			add_location(h31, file, 318, 12, 11129);
+    			add_location(h31, file, 333, 12, 11898);
     			attr_dev(textarea0, "name", "note");
     			attr_dev(textarea0, "placeholder", "Ecrire votre note...");
     			textarea0.required = true;
-    			add_location(textarea0, file, 320, 16, 11215);
+    			add_location(textarea0, file, 335, 16, 11984);
     			attr_dev(span1, "class", "text");
-    			add_location(span1, file, 319, 12, 11178);
+    			add_location(span1, file, 334, 12, 11947);
     			attr_dev(h32, "class", "modal-h3");
-    			add_location(h32, file, 322, 12, 11367);
+    			add_location(h32, file, 337, 12, 12136);
     			attr_dev(textarea1, "name", "keywords");
     			attr_dev(textarea1, "placeholder", "Ecrire les mots clefs séparés par une vigurle");
-    			add_location(textarea1, file, 324, 16, 11478);
+    			add_location(textarea1, file, 339, 16, 12247);
     			attr_dev(span2, "class", "text text-small");
-    			add_location(span2, file, 323, 12, 11430);
+    			add_location(span2, file, 338, 12, 12199);
     			attr_dev(h33, "class", "modal-h3");
-    			add_location(h33, file, 326, 12, 11648);
+    			add_location(h33, file, 341, 12, 12417);
     			attr_dev(input1, "type", "checkbox");
     			attr_dev(input1, "name", "category");
     			input1.value = "categorie-1";
-    			add_location(input1, file, 329, 20, 11783);
-    			add_location(span3, file, 330, 20, 11864);
-    			add_location(label, file, 328, 16, 11754);
+    			add_location(input1, file, 344, 20, 12552);
+    			add_location(span3, file, 345, 20, 12633);
+    			add_location(label, file, 343, 16, 12523);
     			attr_dev(span4, "class", "categories");
-    			add_location(span4, file, 327, 12, 11711);
+    			add_location(span4, file, 342, 12, 12480);
     			attr_dev(button0, "class", "button button-large");
-    			add_location(button0, file, 334, 16, 11991);
+    			add_location(button0, file, 349, 16, 12760);
     			attr_dev(button1, "type", "submit");
     			attr_dev(button1, "class", "button button-large");
-    			add_location(button1, file, 335, 16, 12099);
+    			add_location(button1, file, 350, 16, 12868);
     			attr_dev(div2, "class", "modal-foot");
-    			add_location(div2, file, 333, 12, 11949);
+    			add_location(div2, file, 348, 12, 12718);
     			attr_dev(div3, "class", "modal-wrap");
-    			add_location(div3, file, 311, 7, 10757);
+    			add_location(div3, file, 326, 7, 11526);
     			attr_dev(div4, "class", "modal-inner");
-    			add_location(div4, file, 310, 4, 10723);
+    			add_location(div4, file, 325, 4, 11492);
     			attr_dev(form, "class", "modal modal-edit");
-    			add_location(form, file, 308, 0, 10572);
+    			add_location(form, file, 323, 0, 11341);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, form, anchor);
@@ -2777,14 +2861,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1.name,
     		type: "if",
-    		source: "(307:0) {#if modalEdit}",
+    		source: "(322:0) {#if modalEdit}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (344:0) {#if modalDelete}
+    // (359:0) {#if modalDelete}
     function create_if_block(ctx) {
     	let div5;
     	let div0;
@@ -2821,23 +2905,23 @@ var app = (function () {
     			button1 = element("button");
     			button1.textContent = "Supprimer";
     			attr_dev(div0, "class", "modal-bg");
-    			add_location(div0, file, 346, 8, 12301);
+    			add_location(div0, file, 361, 8, 13070);
     			attr_dev(div1, "class", "icon-close close-modal");
-    			add_location(div1, file, 349, 16, 12461);
+    			add_location(div1, file, 364, 16, 13230);
     			attr_dev(span, "class", "text");
-    			add_location(span, file, 350, 16, 12521);
+    			add_location(span, file, 365, 16, 13290);
     			attr_dev(button0, "class", "button button-large");
-    			add_location(button0, file, 354, 20, 12695);
+    			add_location(button0, file, 369, 20, 13464);
     			attr_dev(button1, "class", "button button-large");
-    			add_location(button1, file, 355, 20, 12809);
+    			add_location(button1, file, 370, 20, 13578);
     			attr_dev(div2, "class", "modal-foot");
-    			add_location(div2, file, 353, 16, 12649);
+    			add_location(div2, file, 368, 16, 13418);
     			attr_dev(div3, "class", "modal-wrap");
-    			add_location(div3, file, 348, 12, 12419);
+    			add_location(div3, file, 363, 12, 13188);
     			attr_dev(div4, "class", "modal-inner");
-    			add_location(div4, file, 347, 8, 12380);
+    			add_location(div4, file, 362, 8, 13149);
     			attr_dev(div5, "class", "modal modal-delete");
-    			add_location(div5, file, 345, 4, 12259);
+    			add_location(div5, file, 360, 4, 13028);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div5, anchor);
@@ -2887,7 +2971,7 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(344:0) {#if modalDelete}",
+    		source: "(359:0) {#if modalDelete}",
     		ctx
     	});
 
@@ -2988,42 +3072,42 @@ var app = (function () {
     			attr_dev(link, "href", "https://fonts.googleapis.com/icon?family=Material+Icons");
     			add_location(link, file, 0, 0, 0);
     			attr_dev(ul0, "class", "nav-links");
-    			add_location(ul0, file, 182, 12, 4685);
-    			add_location(li0, file, 181, 8, 4667);
+    			add_location(ul0, file, 197, 12, 5454);
+    			add_location(li0, file, 196, 8, 5436);
     			attr_dev(span0, "class", "text");
-    			add_location(span0, file, 197, 20, 5119);
-    			add_location(li1, file, 197, 16, 5115);
+    			add_location(span0, file, 212, 20, 5888);
+    			add_location(li1, file, 212, 16, 5884);
     			attr_dev(span1, "class", "text");
-    			add_location(span1, file, 198, 20, 5213);
-    			add_location(li2, file, 198, 16, 5209);
+    			add_location(span1, file, 213, 20, 5982);
+    			add_location(li2, file, 213, 16, 5978);
     			attr_dev(ul1, "class", "nav-links");
-    			add_location(ul1, file, 196, 12, 5075);
-    			add_location(li3, file, 195, 8, 5057);
+    			add_location(ul1, file, 211, 12, 5844);
+    			add_location(li3, file, 210, 8, 5826);
     			attr_dev(ul2, "class", "keywords");
-    			add_location(ul2, file, 202, 12, 5352);
-    			add_location(li4, file, 201, 8, 5334);
-    			add_location(ul3, file, 180, 4, 4653);
-    			add_location(nav, file, 179, 0, 4642);
+    			add_location(ul2, file, 217, 12, 6121);
+    			add_location(li4, file, 216, 8, 6103);
+    			add_location(ul3, file, 195, 4, 5422);
+    			add_location(nav, file, 194, 0, 5411);
     			attr_dev(input, "type", "text");
     			attr_dev(input, "name", "");
     			attr_dev(input, "placeholder", "Rechercher...");
-    			add_location(input, file, 220, 12, 5781);
+    			add_location(input, file, 235, 12, 6550);
     			if (!src_url_equal(img0.src, img0_src_value = "./img/search.svg")) attr_dev(img0, "src", img0_src_value);
     			attr_dev(img0, "alt", "search");
-    			add_location(img0, file, 221, 12, 5876);
+    			add_location(img0, file, 236, 12, 6645);
     			attr_dev(span2, "class", "search-input");
-    			add_location(span2, file, 219, 8, 5740);
+    			add_location(span2, file, 234, 8, 6509);
     			attr_dev(div0, "class", "header-contain");
-    			add_location(div0, file, 218, 4, 5702);
-    			add_location(header, file, 217, 0, 5688);
+    			add_location(div0, file, 233, 4, 6471);
+    			add_location(header, file, 232, 0, 6457);
     			attr_dev(ul4, "class", "notes");
-    			add_location(ul4, file, 227, 4, 5973);
+    			add_location(ul4, file, 242, 4, 6742);
     			if (!src_url_equal(img1.src, img1_src_value = "./img/add.svg")) attr_dev(img1, "src", img1_src_value);
     			attr_dev(img1, "alt", "plus");
-    			add_location(img1, file, 263, 58, 8594);
+    			add_location(img1, file, 278, 58, 9363);
     			attr_dev(div1, "class", "more");
-    			add_location(div1, file, 263, 4, 8540);
-    			add_location(main, file, 226, 0, 5961);
+    			add_location(div1, file, 278, 4, 9309);
+    			add_location(main, file, 241, 0, 6730);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -3226,6 +3310,23 @@ var app = (function () {
 
     	listCategories = [{ title: "Développement" }, { title: "Webdesign" }];
 
+    	listArticles = [
+    		{
+    			id: 1,
+    			title: "Une note d/'exemple",
+    			description: ' lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt. lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt.',
+    			category: 'Important',
+    			status: 'archives'
+    		},
+    		{
+    			id: 2,
+    			title: "Une note d/'exemple",
+    			description: ' lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt. lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt.',
+    			category: 'Important',
+    			status: 'brouillon'
+    		}
+    	];
+
     	if (typeof localStorage.getItem("notes") !== 'undefined') {
     		listArticles = JSON.parse(localStorage.getItem("notes"));
 
@@ -3236,9 +3337,11 @@ var app = (function () {
     						listKeywords.push(keyword.trim());
     					}
     				}
-
-    				if (typeof listItem.category.title !== 'undefined') ; //listCategories.push(listItem.category.title);
-    			}
+    			} /*if( typeof(listItem.category.title) !== 'undefined'){
+        
+        //listCategories.push(listItem.category.title);
+       
+    }*/
 
     			listCategories = [...new Set(listCategories)];
     			listKeywords = [...new Set(listKeywords)];
@@ -3467,7 +3570,7 @@ var app = (function () {
 
     	$$self.$$.update = () => {
     		if ($$self.$$.dirty[0] & /*listArticles*/ 65536) {
-    			localStorage.setItem("notes", JSON.stringify(listArticles));
+    			$$invalidate(16, listArticles = localStorage.setItem("notes", JSON.stringify(listArticles)));
     		}
 
     		if ($$self.$$.dirty[0] & /*listArticles, categoryFilter*/ 65537) {

@@ -40,7 +40,22 @@
 
     ];
 
-    
+    listArticles = [
+        {
+            id: 1,
+            title: "Une note d/'exemple",
+            description: ' lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt. lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt.',
+            category: 'Important',
+            status: 'archives',
+        },
+        {
+            id: 2,
+            title: "Une note d/'exemple",
+            description: ' lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt. lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt.',
+            category: 'Important',
+            status: 'brouillon',
+        },
+    ]
 
     if( typeof(localStorage.getItem("notes")) !== 'undefined') {
 
@@ -58,11 +73,11 @@
                         }
                     }
 
-                    if( typeof(listItem.category.title) !== 'undefined'){
+                    /*if( typeof(listItem.category.title) !== 'undefined'){
                         
                         //listCategories.push(listItem.category.title);
                        
-                    }
+                    }*/
 
                 }
 
@@ -73,7 +88,7 @@
 
     }
 
-    $: localStorage.setItem("notes", JSON.stringify(listArticles));
+    $: listArticles = localStorage.setItem("notes", JSON.stringify(listArticles));
 
 
     $: searchArticles = listArticles.filter((art) => {

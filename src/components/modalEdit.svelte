@@ -24,10 +24,13 @@
             </span>
             <h3 class="modal-h3">Ajouter des catégories:</h3>
             <span class="categories">
-                <label>
-                    <input type="checkbox" name="category" value="categorie-1">
-                    <span>Catégorie 1</span>
-                </label>
+                <select bind:value={updatedArticle.category}>
+                    {#each listCategories as category}
+                        <option value={category}>
+                            {category.title}
+                        </option>
+                    {/each}
+                </select>
             </span>
             <div class="modal-foot">
                 <button class="button button-large" on:click={() => {modalEdit = false;}}>Annuler</button>
