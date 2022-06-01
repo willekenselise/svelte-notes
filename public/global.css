@@ -14,6 +14,10 @@
     text-decoration: none;
 }
 
+a{
+    color: var(--purple);
+}
+
 body{
     width: 100%;
     overflow-x: hidden;
@@ -77,6 +81,10 @@ main .note{
     position: relative;
     z-index: 1;
     margin-top: 5px;
+}
+
+main .note h2{
+    margin-bottom: 15px;
 }
 
 .keywords{
@@ -197,11 +205,17 @@ nav .keywords li:hover{
     background-color: #fff;
 }
 
-.nav-links a{
+.nav-links{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.nav-links .text{
     position: relative;
 }
 
-.nav-links a::before{
+.nav-links .text::before{
     content: "";
     width: 0;
     background-color: #fff;
@@ -216,7 +230,7 @@ nav .keywords li:hover{
     width: 100%;
 }
 
-.nav-links a:hover::before{
+.nav-links .text:hover::before{
     width: 100%;
 }
 

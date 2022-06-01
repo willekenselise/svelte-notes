@@ -3,14 +3,23 @@
   href="https://fonts.googleapis.com/icon?family=Material+Icons"
 />
 <script>
+
+    import ModalAdd from './modalAdd.svelte';
+    import ModalEdit from './modalEdit.svelte';
+    import ModalDelete from './modalDelete.svelte';
+
     let listArticles, listCategories, listKeywords = [];
     let modalAdd, modalEdit, modalDelete = false;
     let deleteModal = true;
+    let deleteItem = undefined;
+    let categoryFilter, keywordFilter = "";
+    let lockFilter = true;
 
     let searchTerm = "";
     let searchArticles = [];
 
     let updatedArticle = {};
+
     let article = {
         id: undefined,
         title: '',
@@ -21,16 +30,16 @@
         updated: undefined,
     }
 
-
-    let categories = [
+    listCategories = [
         {
-            title : "Design",
+            title : "Développement",
         },
         {
             title : "Webdesign",
         },
 
     ];
+
     
 
     if( typeof(localStorage.getItem("notes")) !== 'undefined') {
@@ -43,17 +52,14 @@
 
                     if( typeof(listItem.keywords) !== 'undefined'){
 
-                        console.log(listItem.keywords);
-
                         for (const keyword of listItem.keywords) {
                           
-                            listKeywords.push(keyword);
+                            listKeywords.push(keyword.trim());
                         }
                     }
 
                     if( typeof(listItem.category.title) !== 'undefined'){
                         
-                        console.log(listItem.category.title);
                         //listCategories.push(listItem.category.title);
                        
                     }
@@ -72,12 +78,44 @@
 
     $: searchArticles = listArticles.filter((art) => {
 
+        if( typeof(art.category.title) == 'undefined'){
+            return;
+        }
+
+        return art.category.title.includes(categoryFilter);
+       
+    });
+
+    $: searchArticles = listArticles.filter((art) => {
+
+        if( typeof(art.keywords) == 'undefined'){
+            return;
+        }
+
+        return art.keywords.includes(keywordFilter);
+
+    });
+
+    $: searchArticles = listArticles.filter((art) => {
+
+        let lockStatut = lockFilter ? "brouillon" : "archive";
+
+        if( typeof(art.status) == 'undefined'){
+            return;
+        }
+
+        return art.status.includes(lockStatut);
+
+    });
+
+    $: searchArticles = listArticles.filter((art) => {
+
         if(art.description){
             return art.title.includes(searchTerm) || art.description.includes(searchTerm);
         }
 
         return art.title.includes(searchTerm);
-       
+
     })
 
     const createArticle = () => {
@@ -101,6 +139,10 @@
             }
         }
 
+        if( typeof(article.category) !== 'undefined'){
+            listCategories.push(article.category);
+        }
+
         listArticles = [...listArticles, article];
         article = {
             id: undefined,
@@ -113,8 +155,6 @@
 
         modalAdd = false;
     }
-
-
 
 
     const updateArticle = () => {
@@ -146,7 +186,7 @@
 
                     {#each listCategories as category}
 
-                        <li>{category}</li>
+                        <li><span class="text" on:click={() => {categoryFilter=category.title;}}>{category.title}</span></li>
                         
                     {/each}
 
@@ -155,8 +195,8 @@
         </li>
         <li>
             <ul class="nav-links">
-                <li><a href="#">Notes</a></li>
-                <li><a href="#">Vérouillé</a></li>
+                <li><span class="text" on:click={() => {lockFilter=true;}}>Notes</span></li>
+                <li><span class="text" on:click={() => {lockFilter=false;}}>Vérouillé</span></li>
             </ul>
         </li>
         <li>
@@ -165,7 +205,7 @@
 
                     {#each listKeywords as keyword}
 
-                        <li>{keyword}</li>
+                        <li on:click={() => {keywordFilter=keyword;}}>{keyword}</li>
                         
                     {/each}
 
@@ -174,14 +214,15 @@
         </li>
     </ul>
 </nav>
+
 <header>
     <div class="header-contain">
         <span class="search-input">
             <input type="text" name="" bind:value="{searchTerm}" placeholder="Rechercher...">
             <img src="./img/search.svg" alt="search">
-         </span>
-     </div>
- </header>
+        </span>
+    </div>
+</header>
 
 <main>
     <ul class="notes">
@@ -190,38 +231,38 @@
 
     {#each searchArticles as item}
 
-        <li class="note" id="{item.id}">
-            <h2>{item.title}</h2>
-            <p>{item.description}</p>
-            <p>{item.category ? item.category.title : ""}</p>
-            <div class="note-foot">
-                {#if item.keywords}
-                    <ul class="keywords">
-                        {#each item.keywords as keyword}
-                            <li>{keyword}</li>
-                        {/each}
-                    </ul>
-                {/if}
-                <div class="buttons">
-                    <button class="button lock" on:click={deleteModal(item.id)}>
-                        <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 30 30" ><path d="M 15 2 C 11.145666 2 8 5.1456661 8 9 L 8 11 L 6 11 C 4.895 11 4 11.895 4 13 L 4 25 C 4 26.105 4.895 27 6 27 L 24 27 C 25.105 27 26 26.105 26 25 L 26 13 C 26 11.895 25.105 11 24 11 L 22 11 L 22 9 C 22 5.2715823 19.036581 2.2685653 15.355469 2.0722656 A 1.0001 1.0001 0 0 0 15 2 z M 15 4 C 17.773666 4 20 6.2263339 20 9 L 20 11 L 10 11 L 10 9 C 10 6.2263339 12.226334 4 15 4 z"/></svg>                            
-                    </button>
-                    <button class="button edit" on:click={() => {modalEdit = true; updatedArticle=item}}>
-                        <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" ><path d="M 18.414062 2 C 18.158188 2 17.902031 2.0974687 17.707031 2.2929688 L 16 4 L 20 8 L 21.707031 6.2929688 C 22.098031 5.9019687 22.098031 5.2689063 21.707031 4.8789062 L 19.121094 2.2929688 C 18.925594 2.0974687 18.669937 2 18.414062 2 z M 14.5 5.5 L 3 17 L 3 21 L 7 21 L 18.5 9.5 L 14.5 5.5 z"/></svg>
-                    </button>
-                    <button class="button delete" on:click={deleteArticle(item.id)}>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M 10.806641 2 C 10.289641 2 9.7956875 2.2043125 9.4296875 2.5703125 L 9 3 L 4 3 A 1.0001 1.0001 0 1 0 4 5 L 20 5 A 1.0001 1.0001 0 1 0 20 3 L 15 3 L 14.570312 2.5703125 C 14.205312 2.2043125 13.710359 2 13.193359 2 L 10.806641 2 z M 4.3652344 7 L 5.8925781 20.263672 C 6.0245781 21.253672 6.877 22 7.875 22 L 16.123047 22 C 17.121047 22 17.974422 21.254859 18.107422 20.255859 L 19.634766 7 L 4.3652344 7 z"/></svg>                            
-                    </button>
-                </div>
+    <li class="note" id="{item.id}"> 
+        <h2><a href="{`./article/${item.id}`}">{item.title}</a></h2>
+        <p>{item.description.substring(0, 400)}</p>
+        <p>{item.category ? item.category.title : ""}</p>
+        <div class="note-foot">
+            {#if item.keywords}
+                <ul class="keywords">
+                    {#each item.keywords as keyword}
+                        <li>{keyword}</li>
+                    {/each}
+                </ul>
+            {/if}
+            <div class="buttons">
+                <button class="button lock" on:click={() => { item.status == "brouillon" ? "archive" : "brouillon" ; }}>
+                    <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 30 30" ><path d="M 15 2 C 11.145666 2 8 5.1456661 8 9 L 8 11 L 6 11 C 4.895 11 4 11.895 4 13 L 4 25 C 4 26.105 4.895 27 6 27 L 24 27 C 25.105 27 26 26.105 26 25 L 26 13 C 26 11.895 25.105 11 24 11 L 22 11 L 22 9 C 22 5.2715823 19.036581 2.2685653 15.355469 2.0722656 A 1.0001 1.0001 0 0 0 15 2 z M 15 4 C 17.773666 4 20 6.2263339 20 9 L 20 11 L 10 11 L 10 9 C 10 6.2263339 12.226334 4 15 4 z"/></svg>                            
+                </button>
+                <button class="button edit" on:click={() => {modalEdit = true; updatedArticle=item}}>
+                    <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" ><path d="M 18.414062 2 C 18.158188 2 17.902031 2.0974687 17.707031 2.2929688 L 16 4 L 20 8 L 21.707031 6.2929688 C 22.098031 5.9019687 22.098031 5.2689063 21.707031 4.8789062 L 19.121094 2.2929688 C 18.925594 2.0974687 18.669937 2 18.414062 2 z M 14.5 5.5 L 3 17 L 3 21 L 7 21 L 18.5 9.5 L 14.5 5.5 z"/></svg>
+                </button>
+                <button class="button delete" on:click={ () => {modalDelete = true; deleteItem=item.id}}>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M 10.806641 2 C 10.289641 2 9.7956875 2.2043125 9.4296875 2.5703125 L 9 3 L 4 3 A 1.0001 1.0001 0 1 0 4 5 L 20 5 A 1.0001 1.0001 0 1 0 20 3 L 15 3 L 14.570312 2.5703125 C 14.205312 2.2043125 13.710359 2 13.193359 2 L 10.806641 2 z M 4.3652344 7 L 5.8925781 20.263672 C 6.0245781 21.253672 6.877 22 7.875 22 L 16.123047 22 C 17.121047 22 17.974422 21.254859 18.107422 20.255859 L 19.634766 7 L 4.3652344 7 z"/></svg>                            
+                </button>
             </div>
-        </li>
+        </div>
+    </li>
+
     {/each}
 
 {/if}
 </ul>
     <div class="more" on:click={() => {modalAdd = true;}}><img src="./img/add.svg" alt="plus" ></div>
 </main> 
-
 
 {#if modalAdd }
 
@@ -246,7 +287,7 @@
                 <h3 class="modal-h3">Ajouter une catégorie:</h3>
                 <span class="categories">
                     <select bind:value={article.category}>
-                        {#each categories as category}
+                        {#each listCategories as category}
                             <option value={category}>
                                 {category.title}
                             </option>
@@ -259,8 +300,8 @@
                 </div>
             </div>
         </div>   
-    </form>     
-
+    </form> 
+    
 {/if}
 
 {#if modalEdit}
@@ -312,7 +353,7 @@
                 </span>
                 <div class="modal-foot">
                     <button class="button button-large" on:click={() => {modalDelete = false;}}>Annuler</button>
-                    <button class="button button-large">Supprimer</button>
+                    <button class="button button-large" on:click={deleteArticle(deleteItem)}>Supprimer</button>
                 </div>
             </div>
         </div>     
