@@ -61,6 +61,7 @@ main .notes{
     column-gap: 30px;
     padding: 40px;
 	color: var(--purple);
+    width: calc( 100% - 80px);
 
 }
 
