@@ -7,13 +7,14 @@
     let modalAdd, modalEdit,  modalDelete = false;
     let deleteModal = true;
 
+    let searchTerm = "";
+
     let updatedArticle = {};
     let article = {
         id: undefined,
         title: '',
         description: '',
         category: '',
-        categories: [],
         status: '',
         created:undefined,
         updated: undefined,
@@ -60,6 +61,11 @@
 
     $: localStorage.setItem("articles", JSON.stringify(listArticles));
 
+
+    $: searchArticles = listArticles.filter((art) => {
+        return art.title.includes(searchTerm) || art.description.includes(searchTerm);
+    })
+
     const createArticle = () => {
         
         if(!article.title.trim()) {
@@ -73,8 +79,6 @@
         
         article.keywords = article.keywords.split(',');
 
-        console.log(article.keywords);
-
         listArticles = [...listArticles, article];
         article = {
         id: undefined,
@@ -84,6 +88,8 @@
         status: '',
         keywords: [],
         }
+
+        modalAdd = false;
     }
 
     const updateArticle = () => {
@@ -93,24 +99,64 @@
         listArticles[productIndex]= updatedArticle;
         isNew = true;
         updatedArticle = {};
+
+        modalEdit = false;
     }
 
     const deleteArticle = id => {
         listArticles = listArticles.filter(item => item.id !== id);
+        modalDelete = false;
     }
 
 
 </script>
 
+<nav>
+    <ul>
+        <li>
+            <ul class="nav-links">
+                <li><a href="#" class="nav-current" >Catégorie 1</a></li>
+                <li><a href="#">Catégorie 2</a></li>
+                <li><a href="#">Catégorie 3</a></li>
+            </ul>
+        </li>
+        <li>
+            <ul class="nav-links">
+                <li><a href="#">Notes</a></li>
+                <li><a href="#">Vérouillé</a></li>
+            </ul>
+        </li>
+        <li>
+            <ul class="keywords">
+                <li class="nav-current">Mot</li>
+                <li>Mot clef 1</li>
+                <li>Mot</li>
+                <li>Mot clef 1</li>
+                <li>Mot clef 1</li>
+                <li>Mot clef 1</li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+<header>
+    <div class="header-contain">
+        <span class="search-input">
+            <input type="text" name="" bind:value="{searchTerm}" placeholder="Rechercher...">
+            <img src="./img/search.svg" alt="search">
+         </span>
+     </div>
+ </header>
+
 <main>
     <ul class="notes">
                           
         
-{#each listArticles as item}
+{#each searchArticles as item}
 
     <li class="note" id="{item.id}">
         <h2>{item.title}</h2>
         <p>{item.description}</p>
+        <p>{item.category ? item.category.title : ""}</p>
         <div class="note-foot">
             {#if item.keywords}
                 <ul class="keywords">
@@ -134,7 +180,7 @@
     </li>
 {/each}
 </ul>
-    <div class="more" on:click={() => {modalAdd = true;}}><img src="assets/img/add.svg" alt="plus" ></div>
+    <div class="more" on:click={() => {modalAdd = true;}}><img src="./img/add.svg" alt="plus" ></div>
 </main> 
 
 
@@ -158,14 +204,15 @@
                 <span class="text text-small">
                     <textarea name="keywords" placeholder="Ecrire les mots clefs séparés par une vigurle" bind:value={article.keywords}></textarea>
                 </span>
-                <h3 class="modal-h3">Ajouter des catégories:</h3>
+                <h3 class="modal-h3">Ajouter une catégorie:</h3>
                 <span class="categories">
-                    {#each categories as category}
-                    <label>
-                        <input type="checkbox" bind:checked={category.id}>
-                        <span>{category.title}</span>
-                    </label>
-                    {/each}
+                    <select bind:value={article.category}>
+                        {#each categories as category}
+                            <option value={category}>
+                                {category.title}
+                            </option>
+                        {/each}
+                    </select>
                 </span>
                 <div class="modal-foot">
                     <button class="button button-large" on:click={() => {modalAdd = false;}}>Annuler</button>
